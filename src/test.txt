@@ -1,0 +1,275 @@
+Microsoft Windows [version 10.0.18363.1316]
+(c) 2019 Microsoft Corporation. Tous droits réservés.
+
+C:\Users\Utilisateur>mongo
+MongoDB shell version v4.4.3
+connecting to: mongodb://127.0.0.1:27017/?compressors=disabled&gssapiServiceName=mongodb
+Implicit session: session { "id" : UUID("8cd876a5-135a-46e3-8636-a21c0986d756") }
+MongoDB server version: 4.4.3
+---
+The server generated these startup warnings when booting:
+        2021-01-21T10:24:40.155+01:00: Access control is not enabled for the database. Read and write access to data and configuration is unrestricted
+---
+---
+        Enable MongoDB's free cloud-based monitoring service, which will then receive and display
+        metrics about your deployment (disk utilization, CPU, operation statistics, etc).
+
+        The monitoring data will be available on a MongoDB website with a unique URL accessible to you
+        and anyone you share the URL with. MongoDB may use this information to make product
+        improvements and to suggest MongoDB products and deployment options to you.
+
+        To enable free monitoring, run the following command: db.enableFreeMonitoring()
+        To permanently disable this reminder, run the following command: db.disableFreeMonitoring()
+---
+> show db
+uncaught exception: Error: don't know how to show [db] :
+shellHelper.show@src/mongo/shell/utils.js:1191:11
+shellHelper@src/mongo/shell/utils.js:819:15
+@(shellhelp2):1:1
+> dbshow dbs
+uncaught exception: SyntaxError: unexpected token: identifier :
+@(shell):1:7
+> show dbs
+admin   0.000GB
+config  0.000GB
+local   0.000GB
+mylib   0.000GB
+> use tutoDB
+switched to db tutoDB
+> db.articles.insert({name:'intro to CS', cartegory:'CS', ref:1001})
+WriteResult({ "nInserted" : 1 })
+> db
+tutoDB
+> db.articles.find()
+{ "_id" : ObjectId("6009da2b1b65edc31b0335f7"), "name" : "intro to CS", "cartegory" : "CS", "ref" : 1001 }
+> db.articles.find(name)
+uncaught exception: ReferenceError: name is not defined :
+@(shell):1:1
+> db.articles.find({name})
+uncaught exception: ReferenceError: name is not defined :
+@(shell):1:19
+> db.aritcles.find().pretty()
+> db.articles.find().pretty()
+{
+        "_id" : ObjectId("6009da2b1b65edc31b0335f7"),
+        "name" : "intro to CS",
+        "cartegory" : "CS",
+        "ref" : 1001
+}
+> show dbs
+admin   0.000GB
+config  0.000GB
+local   0.000GB
+mylib   0.000GB
+tutoDB  0.000GB
+> db.articles.insertMany([{name:'intro to dbs", category:'CS', ref:1002},{name:'discober the mongodb', category:'CS', ref:'1002', _id: 502030}])
+uncaught exception: SyntaxError: missing } after property list :
+@(shell):1:56
+>
+> db.articles.insertMany([{name:'me", category:'CS', ref:1002},{name:'you', category:'CS', ref:1002, _id:8888}])
+uncaught exception: SyntaxError: missing } after property list :
+@(shell):1:46
+> db.articles([{name:'me', category: 'CS', ref:1002},{name:'you', category:'CS', ref:1002 , _id:8888 }})
+uncaught exception: SyntaxError: missing ] after element list :
+@(shell):1:100
+> db.articles.insertMany([{name:'mm', category:'CS', ref:1002},{name:'pp', category:'CS', ref:1002, _id:8888}])
+{
+        "acknowledged" : true,
+        "insertedIds" : [
+                ObjectId("6009de0d1b65edc31b0335f8"),
+                8888
+        ]
+}
+> db.articles.find().pretty()
+{
+        "_id" : ObjectId("6009da2b1b65edc31b0335f7"),
+        "name" : "intro to CS",
+        "cartegory" : "CS",
+        "ref" : 1001
+}
+{
+        "_id" : ObjectId("6009de0d1b65edc31b0335f8"),
+        "name" : "mm",
+        "category" : "CS",
+        "ref" : 1002
+}
+{ "_id" : 8888, "name" : "pp", "category" : "CS", "ref" : 1002 }
+> db.articles.insertOne(<document>,{name:'newInsert'})
+uncaught exception: SyntaxError: expected expression, got '<' :
+@(shell):1:22
+> db.articles.find(name:'pp').pretty()
+uncaught exception: SyntaxError: missing ) after argument list :
+@(shell):1:21
+> db.articles.find({name:'pp'}).pretty()
+{ "_id" : 8888, "name" : "pp", "category" : "CS", "ref" : 1002 }
+> db.articles.save({name:'pp', test:'save'})
+WriteResult({ "nInserted" : 1 })
+> db.articles.find()
+{ "_id" : ObjectId("6009da2b1b65edc31b0335f7"), "name" : "intro to CS", "cartegory" : "CS", "ref" : 1001 }
+{ "_id" : ObjectId("6009de0d1b65edc31b0335f8"), "name" : "mm", "category" : "CS", "ref" : 1002 }
+{ "_id" : 8888, "name" : "pp", "category" : "CS", "ref" : 1002 }
+{ "_id" : ObjectId("6009e60f1b65edc31b0335f9"), "name" : "pp", "test" : "save" }
+> db
+tutoDB
+> show collections
+articles
+> db.articles.find()
+{ "_id" : ObjectId("6009da2b1b65edc31b0335f7"), "name" : "intro to CS", "cartegory" : "CS", "ref" : 1001 }
+{ "_id" : ObjectId("6009de0d1b65edc31b0335f8"), "name" : "mm", "category" : "CS", "ref" : 1002 }
+{ "_id" : 8888, "name" : "pp", "category" : "CS", "ref" : 1002 }
+{ "_id" : ObjectId("6009e60f1b65edc31b0335f9"), "name" : "pp", "test" : "save" }
+> db.articles.find(null,{name:1})
+{ "_id" : ObjectId("6009da2b1b65edc31b0335f7"), "name" : "intro to CS" }
+{ "_id" : ObjectId("6009de0d1b65edc31b0335f8"), "name" : "mm" }
+{ "_id" : 8888, "name" : "pp" }
+{ "_id" : ObjectId("6009e60f1b65edc31b0335f9"), "name" : "pp" }
+> db.articles.find(null,{name:1,ref1})
+uncaught exception: ReferenceError: ref1 is not defined :
+@(shell):1:31
+> db.articles.find({name:1, ref:1})
+>
+> db.articles.find({name:1, ref:1})
+> db.articles.find(null,{name:1, ref:1})
+{ "_id" : ObjectId("6009da2b1b65edc31b0335f7"), "name" : "intro to CS", "ref" : 1001 }
+{ "_id" : ObjectId("6009de0d1b65edc31b0335f8"), "name" : "mm", "ref" : 1002 }
+{ "_id" : 8888, "name" : "pp", "ref" : 1002 }
+{ "_id" : ObjectId("6009e60f1b65edc31b0335f9"), "name" : "pp" }
+> db.articles.find(null,{name:0})
+{ "_id" : ObjectId("6009da2b1b65edc31b0335f7"), "cartegory" : "CS", "ref" : 1001 }
+{ "_id" : ObjectId("6009de0d1b65edc31b0335f8"), "category" : "CS", "ref" : 1002 }
+{ "_id" : 8888, "category" : "CS", "ref" : 1002 }
+{ "_id" : ObjectId("6009e60f1b65edc31b0335f9"), "test" : "save" }
+> db.articles.find({name:'pp'})
+{ "_id" : 8888, "name" : "pp", "category" : "CS", "ref" : 1002 }
+{ "_id" : ObjectId("6009e60f1b65edc31b0335f9"), "name" : "pp", "test" : "save" }
+> db.articles.find({name:'pp'},{_id:1})
+{ "_id" : 8888 }
+{ "_id" : ObjectId("6009e60f1b65edc31b0335f9") }
+> db.articles.find({ref:{$eq:1001}})
+{ "_id" : ObjectId("6009da2b1b65edc31b0335f7"), "name" : "intro to CS", "cartegory" : "CS", "ref" : 1001 }
+> db.articles.find({ref:{$gte:1001}})
+{ "_id" : ObjectId("6009da2b1b65edc31b0335f7"), "name" : "intro to CS", "cartegory" : "CS", "ref" : 1001 }
+{ "_id" : ObjectId("6009de0d1b65edc31b0335f8"), "name" : "mm", "category" : "CS", "ref" : 1002 }
+{ "_id" : 8888, "name" : "pp", "category" : "CS", "ref" : 1002 }
+> nb.articles.find({ref:{$lt:7000}},{name:1})
+uncaught exception: ReferenceError: nb is not defined :
+@(shell):1:1
+> db.articles.find({ref:{$lt:7000}},{name:1})
+{ "_id" : ObjectId("6009da2b1b65edc31b0335f7"), "name" : "intro to CS" }
+{ "_id" : ObjectId("6009de0d1b65edc31b0335f8"), "name" : "mm" }
+{ "_id" : 8888, "name" : "pp" }
+> db.articles.update({name:'pp'},{ref:500})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> db.articles.find()
+{ "_id" : ObjectId("6009da2b1b65edc31b0335f7"), "name" : "intro to CS", "cartegory" : "CS", "ref" : 1001 }
+{ "_id" : ObjectId("6009de0d1b65edc31b0335f8"), "name" : "mm", "category" : "CS", "ref" : 1002 }
+{ "_id" : 8888, "ref" : 500 }
+{ "_id" : ObjectId("6009e60f1b65edc31b0335f9"), "name" : "pp", "test" : "save" }
+> db.articles.update({ref:500},{name:'newName', category:'nexCategory', ref:500})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> db.articles.find()
+{ "_id" : ObjectId("6009da2b1b65edc31b0335f7"), "name" : "intro to CS", "cartegory" : "CS", "ref" : 1001 }
+{ "_id" : ObjectId("6009de0d1b65edc31b0335f8"), "name" : "mm", "category" : "CS", "ref" : 1002 }
+{ "_id" : 8888, "name" : "newName", "category" : "nexCategory", "ref" : 500 }
+{ "_id" : ObjectId("6009e60f1b65edc31b0335f9"), "name" : "pp", "test" : "save" }
+> db.articles.update.({ref:500},{$set: {category:'newCategory'}})
+uncaught exception: SyntaxError: missing name after . operator :
+@(shell):1:19
+> db.articles.update({ref:500},{$set: {category:'newCategory'}})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> db.articles.find()
+{ "_id" : ObjectId("6009da2b1b65edc31b0335f7"), "name" : "intro to CS", "cartegory" : "CS", "ref" : 1001 }
+{ "_id" : ObjectId("6009de0d1b65edc31b0335f8"), "name" : "mm", "category" : "CS", "ref" : 1002 }
+{ "_id" : 8888, "name" : "newName", "category" : "newCategory", "ref" : 500 }
+{ "_id" : ObjectId("6009e60f1b65edc31b0335f9"), "name" : "pp", "test" : "save" }
+> db.articles.update({category:{$exists:true}},{$rename: {category:'categ'}})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> db.articles.find()
+{ "_id" : ObjectId("6009da2b1b65edc31b0335f7"), "name" : "intro to CS", "cartegory" : "CS", "ref" : 1001 }
+{ "_id" : ObjectId("6009de0d1b65edc31b0335f8"), "name" : "mm", "ref" : 1002, "categ" : "CS" }
+{ "_id" : 8888, "name" : "newName", "category" : "newCategory", "ref" : 500 }
+{ "_id" : ObjectId("6009e60f1b65edc31b0335f9"), "name" : "pp", "test" : "save" }
+> db.articles.updateMany({category:{$exists:true}},{$rename: {category:'categ'}})
+{ "acknowledged" : true, "matchedCount" : 1, "modifiedCount" : 1 }
+> db.articles.find()
+{ "_id" : ObjectId("6009da2b1b65edc31b0335f7"), "name" : "intro to CS", "cartegory" : "CS", "ref" : 1001 }
+{ "_id" : ObjectId("6009de0d1b65edc31b0335f8"), "name" : "mm", "ref" : 1002, "categ" : "CS" }
+{ "_id" : 8888, "name" : "newName", "ref" : 500, "categ" : "newCategory" }
+{ "_id" : ObjectId("6009e60f1b65edc31b0335f9"), "name" : "pp", "test" : "save" }
+> db.articles.update({cartegory:{$exists:true}},{$rename: {category:'categ'}})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 0 })
+> db.articles.update({cartegory:{$exists:true}},{$rename: {cartegory:'categ'}})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> db.articles.find()
+{ "_id" : ObjectId("6009da2b1b65edc31b0335f7"), "name" : "intro to CS", "ref" : 1001, "categ" : "CS" }
+{ "_id" : ObjectId("6009de0d1b65edc31b0335f8"), "name" : "mm", "ref" : 1002, "categ" : "CS" }
+{ "_id" : 8888, "name" : "newName", "ref" : 500, "categ" : "newCategory" }
+{ "_id" : ObjectId("6009e60f1b65edc31b0335f9"), "name" : "pp", "test" : "save" }
+> db.articles.update({test:"save"},{$set:{categ:'CS'}})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> db.articles.find()
+{ "_id" : ObjectId("6009da2b1b65edc31b0335f7"), "name" : "intro to CS", "ref" : 1001, "categ" : "CS" }
+{ "_id" : ObjectId("6009de0d1b65edc31b0335f8"), "name" : "mm", "ref" : 1002, "categ" : "CS" }
+{ "_id" : 8888, "name" : "newName", "ref" : 500, "categ" : "newCategory" }
+{ "_id" : ObjectId("6009e60f1b65edc31b0335f9"), "name" : "pp", "test" : "save", "categ" : "CS" }
+> db.articles.remove({name:'pp'},{justOne:true})
+WriteResult({ "nRemoved" : 1 })
+> db.articles.find()
+{ "_id" : ObjectId("6009da2b1b65edc31b0335f7"), "name" : "intro to CS", "ref" : 1001, "categ" : "CS" }
+{ "_id" : ObjectId("6009de0d1b65edc31b0335f8"), "name" : "mm", "ref" : 1002, "categ" : "CS" }
+{ "_id" : 8888, "name" : "newName", "ref" : 500, "categ" : "newCategory" }
+> db.articles.remove({ref:{$lt:1000}})
+WriteResult({ "nRemoved" : 1 })
+> db.articles.find()
+{ "_id" : ObjectId("6009da2b1b65edc31b0335f7"), "name" : "intro to CS", "ref" : 1001, "categ" : "CS" }
+{ "_id" : ObjectId("6009de0d1b65edc31b0335f8"), "name" : "mm", "ref" : 1002, "categ" : "CS" }
+> db.articles.insert({last name:'ll'})
+uncaught exception: SyntaxError: missing : after property id :
+@(shell):1:25
+> db.articles.insert({last_name:'ll'})
+WriteResult({ "nInserted" : 1 })
+> db.articles.find()
+{ "_id" : ObjectId("6009da2b1b65edc31b0335f7"), "name" : "intro to CS", "ref" : 1001, "categ" : "CS" }
+{ "_id" : ObjectId("6009de0d1b65edc31b0335f8"), "name" : "mm", "ref" : 1002, "categ" : "CS" }
+{ "_id" : ObjectId("600a00771b65edc31b0335fa"), "last_name" : "ll" }
+> db.articles.find({_id:"6009da2b1b65edc31b0335f7"},{name:1})
+>
+> db.articles.find({_id:ObjectId("6009da2b1b65edc31b0335f7")},{name:1})
+{ "_id" : ObjectId("6009da2b1b65edc31b0335f7"), "name" : "intro to CS" }
+> db.articles.find({_id:ObjectId("6009da2b1b65edc31b0335f7")},null)
+{ "_id" : ObjectId("6009da2b1b65edc31b0335f7"), "name" : "intro to CS", "ref" : 1001, "categ" : "CS" }
+> db.articles.find({ref: {$gt: 1001}})
+{ "_id" : ObjectId("6009de0d1b65edc31b0335f8"), "name" : "mm", "ref" : 1002, "categ" : "CS" }
+> db.articles.find({ref: {$gt: 1001}})
+{ "_id" : ObjectId("6009de0d1b65edc31b0335f8"), "name" : "mm", "ref" : 1002, "categ" : "CS" }
+> db.articles.find({ref: {$elemMatch: 001}})
+Error: error: {
+        "ok" : 0,
+        "errmsg" : "$elemMatch needs an Object",
+        "code" : 2,
+        "codeName" : "BadValue"
+}
+> db.articles.find({ref: {$elemMatch: {001}}})
+uncaught exception: SyntaxError: missing : after property id :
+@(shell):1:40
+> db.articles.find({$elemMatch:{name: 'm'}})
+Error: error: {
+        "ok" : 0,
+        "errmsg" : "unknown top level operator: $elemMatch",
+        "code" : 2,
+        "codeName" : "BadValue"
+}
+> db.articles.find({name: {$in: ['m']}})
+> db.articles.find({"name": {$regex:".*m.*}})
+uncaught exception: SyntaxError: "" literal not terminated before end of script :
+@(shell):1:43
+> db.articles.find({$contains:{"name":"m"}})
+Error: error: {
+        "ok" : 0,
+        "errmsg" : "unknown top level operator: $contains",
+        "code" : 2,
+        "codeName" : "BadValue"
+}
+> db.articles.find({name:/m/})
+{ "_id" : ObjectId("6009de0d1b65edc31b0335f8"), "name" : "mm", "ref" : 1002, "categ" : "CS" }
+>
